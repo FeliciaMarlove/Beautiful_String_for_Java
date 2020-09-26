@@ -6,7 +6,7 @@ Getters methods have to follow usual Java naming conventions:
 - starting with "get", "has" or "is" followed by an UpperCase word
  */
 
-public class ExampleClass<T, K, V> {
+public class ExampleThing<T, K, V> {
     private int theIntAttribute;
     private boolean hasTheBooleanAttribute;
     private boolean isTheBooleanAttribute;
@@ -16,7 +16,7 @@ public class ExampleClass<T, K, V> {
     private List<T> theGenericList;
     private Map<K, V> theGenericMap;
 
-    public ExampleClass(int theIntAttribute, boolean hasTheBooleanAttribute, boolean isTheBooleanAttribute, String theStringAttribute, Object theObjectAttribute, double[] theArrayOfDoubles, List<T> theGenericList, Map<K, V> theGenericMap) {
+    public ExampleThing(int theIntAttribute, boolean hasTheBooleanAttribute, boolean isTheBooleanAttribute, String theStringAttribute, Object theObjectAttribute, double[] theArrayOfDoubles, List<T> theGenericList, Map<K, V> theGenericMap) {
         /*
         Dummy constructor for demonstration purpose. Shallow copies made for code brevity. Don't try this at home ;)
          */
@@ -30,7 +30,7 @@ public class ExampleClass<T, K, V> {
         this.theGenericMap = theGenericMap;
     }
 
-    public ExampleClass() {
+    public ExampleThing() {
     }
 
     // Setters omitted for code brevity

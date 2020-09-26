@@ -1,5 +1,5 @@
 import java.lang.reflect.*;
-import java.util.Arrays;
+import java.util.*;
 
 public abstract class BeautifulString <T> {
     private static final String get = Suffixes.GET.get();
@@ -13,13 +13,12 @@ public abstract class BeautifulString <T> {
             if (Modifier.isPublic(m.getModifiers())) {
                 if (m.getName().startsWith(get) && Character.isUpperCase(m.getName().charAt(get.length()))) {
                     printBeautifully(m, objectToOuput, get);
-
                 } else
                 if (m.getName().startsWith(is) && Character.isUpperCase(m.getName().charAt(is.length()))) {
-
+                    printBeautifully(m, objectToOuput, is);
                 } else
                 if (m.getName().startsWith(has) && Character.isUpperCase(m.getName().charAt(has.length()))) {
-
+                    printBeautifully(m, objectToOuput, has);
                 }
             }
 
@@ -28,22 +27,43 @@ public abstract class BeautifulString <T> {
         System.out.println("-------------------------------------------------------\n" +
                 "Information automatically output with BeautifulString.\n" +
                 "Please find original source code at: https://github.com/FeliciaMarlove/Beautiful_String_for_Java\n" +
-                "Thank you for reporting any bug or desired improvement.");
+                "Thank you for reporting any bug or improvement ideas.");
     }
 
-    private static <T> void printBeautifully(Method m, T o, String suffix) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method sumInstanceMethod = o.getClass().getMethod(m.getName());
+    private static <T> void printBeautifully(Method m, T o, String suffix) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
+        Method retrievedMethod = o.getClass().getMethod(m.getName());
         String attributeName = "";
-        String [] words;
+        String[] words;
         switch (suffix) {
-            case "get" : words = m.getName().substring("get".length()).split("(?=\\p{Upper})"); break;
-            case "is" : words = m.getName().substring("is".length()).split("(?=\\p{Upper})"); break;
-            case "has" : words = m.getName().substring("has".length()).split("(?=\\p{Upper})"); break;
-            default : words = new String[]{"Did", "you", "follow", "naming", "conventions", "?"}; break;
+            case "get":
+                words = m.getName().substring("get".length()).split("(?=\\p{Upper})");
+                break;
+            case "is":
+                words = m.getName().substring("is".length()).split("(?=\\p{Upper})");
+                break;
+            case "has":
+                words = m.getName().substring("has".length()).split("(?=\\p{Upper})");
+                break;
+            default:
+                words = new String[]{"Did", "you", "follow", "naming", "conventions", "?"};
+                break;
         }
-        Arrays.stream(words).forEach( s -> System.out.print(s + " "));
-        System.out.println( ": \t" + sumInstanceMethod.invoke(o));
+        Arrays.stream(words).forEach(s -> System.out.print(s + " "));
+        Object gottenData = retrievedMethod.invoke(o);
+        if (gottenData instanceof Collection) {
+            System.out.println( ": \t{" + gottenData.getClass().getSimpleName() + "} " + gottenData);
+        } else if (gottenData instanceof Map) {
+            System.out.println( ": \t{" + gottenData.getClass().getSimpleName() + "} " + gottenData);
+        } else if (gottenData.getClass().isArray()) {
+            System.out.println( ": \t{" + gottenData.getClass().getSimpleName() + "} " + gottenData);
+        } else if (gottenData instanceof String || gottenData instanceof Number) {
+            System.out.println( ": \t{" + gottenData.getClass().getSimpleName() + "} " + gottenData);
+        } else {
+            System.out.println( ": \t{" + gottenData.getClass().getSimpleName() + "} ");
+        }
+
     }
+
 
     /*
     For development purpose
