@@ -75,13 +75,61 @@ public abstract class BeautifulString<T> {
     private static <T> Object[] getArrayWrapped(String returnType, T o) {
         switch (returnType) {
             case "double[]" :
-                double[] dA = (double[]) o;
-                Double[] dAWrapped = new Double[dA.length];
-                for (int i = 0; i < dA.length; i++) {
-                    dAWrapped[i] = Double.valueOf(dA[i]);
+                double[] doubleArray = (double[]) o;
+                Double[] doubleArrayWrapped = new Double[doubleArray.length];
+                for (int i = 0; i < doubleArray.length; i++) {
+                    doubleArrayWrapped[i] = doubleArray[i];
                 }
-                return dAWrapped;
-           //TODO other cases for 1D []
+                return doubleArrayWrapped;
+            case "int[]" :
+                int[] intArray = (int[]) o;
+                Integer[] integerArrayWrapped = new Integer[intArray.length];
+                for (int i = 0; i < intArray.length; i++) {
+                    integerArrayWrapped[i] = intArray[i];
+                }
+                return integerArrayWrapped;
+            case "float[]" :
+                float[] floatArray = (float[]) o;
+                Float[] floatArrayWrapped = new Float[floatArray.length];
+                for (int i = 0; i < floatArray.length; i++) {
+                    floatArrayWrapped[i] = floatArray[i];
+                }
+                return floatArrayWrapped;
+            case "long[]" :
+                long[] longArray = (long[]) o;
+                Long[] longArrayWrapped = new Long[longArray.length];
+                for (int i = 0; i < longArray.length; i++) {
+                    longArrayWrapped[i] = longArray[i];
+                }
+                return longArrayWrapped;
+            case "char[]" :
+                char[] charArray = (char[]) o;
+                Character[] characterArrayWrapped = new Character[charArray.length];
+                for (int i = 0; i < charArray.length; i++) {
+                    characterArrayWrapped[i] = charArray[i];
+                }
+                return characterArrayWrapped;
+            case "byte[]" :
+                byte[] byteArray = (byte[]) o;
+                Byte[] byteArrayWrapped = new Byte[byteArray.length];
+                for (int i = 0; i < byteArray.length; i++) {
+                    byteArrayWrapped[i] = byteArray[i];
+                }
+                return byteArrayWrapped;
+            case "short[]" :
+                short[] shortArray = (short[]) o;
+                Short[] shortArrayWrapped = new Short[shortArray.length];
+                for (int i = 0; i < shortArray.length; i++) {
+                    shortArrayWrapped[i] = shortArray[i];
+                }
+                return shortArrayWrapped;
+            case "boolean[]" :
+                boolean[] booleanArray = (boolean[]) o;
+                Boolean[] booleanArrayWrapped = new Boolean[booleanArray.length];
+                for (int i = 0; i < booleanArray.length; i++) {
+                    booleanArrayWrapped[i] = booleanArray[i];
+                }
+                return booleanArrayWrapped;
             default: return (Object[])o; // an array of reference type objects, including wrappers
         }
     }
