@@ -15,8 +15,9 @@ public class ExampleThing<T, K, V> {
     private double[] theArrayOfDoubles;
     private List<T> theGenericList;
     private Map<K, V> theGenericMap;
+    private String name;
 
-    public ExampleThing(int theIntAttribute, boolean hasTheBooleanAttribute, boolean isTheBooleanAttribute, String theStringAttribute, Object theObjectAttribute, double[] theArrayOfDoubles, List<T> theGenericList, Map<K, V> theGenericMap) {
+    public ExampleThing(int theIntAttribute, boolean hasTheBooleanAttribute, boolean isTheBooleanAttribute, String theStringAttribute, Object theObjectAttribute, double[] theArrayOfDoubles, List<T> theGenericList, Map<K, V> theGenericMap, String name) {
         /*
         Dummy constructor for demonstration purpose. Shallow copies made for code brevity. Don't try this at home ;)
          */
@@ -28,6 +29,7 @@ public class ExampleThing<T, K, V> {
         this.theArrayOfDoubles = theArrayOfDoubles;
         this.theGenericList = theGenericList;
         this.theGenericMap = theGenericMap;
+        this.name = name;
     }
 
     public ExampleThing() {
@@ -65,6 +67,10 @@ public class ExampleThing<T, K, V> {
 
     public Map<K, V> getTheGenericMap() {
         return theGenericMap;
+    }
+
+    public String getName() {
+        return name;
     }
 
     private void getTheNothingBecauseWeOnlyInputPublicGetters() {
