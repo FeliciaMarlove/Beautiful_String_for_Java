@@ -70,8 +70,6 @@ public abstract class BeautifulString<T> {
         } else {
             System.out.println(": \t{" + returnType + "} ");
         }
-
-       // var gottenData = (double[])retrievedMethod.invoke(o);
     }
 
     private static <T> Object[] getArrayWrapped(String returnType, T o) {
@@ -84,7 +82,7 @@ public abstract class BeautifulString<T> {
                 }
                 return dAWrapped;
            //TODO other cases for 1D []
-            default: return null;
+            default: return (Object[])o; // an array of reference type objects, including wrappers
         }
     }
 
