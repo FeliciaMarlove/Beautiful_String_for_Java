@@ -55,7 +55,7 @@ public abstract class BeautifulString<T> {
         } else if (data instanceof String || data instanceof Number || data instanceof Boolean) {
             System.out.println(": \t{" + returnType + "} " + data);
         } else {
-            //TODO - consider limiting output in case of recursion!
+            //TODO - consider limiting output in case of recursion! cfr java doc on deepToString
             System.out.println(": \t{" + returnType + "} ");
         }
     }

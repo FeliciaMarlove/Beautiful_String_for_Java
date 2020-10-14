@@ -1,4 +1,4 @@
-public class ExampleStuff {
+public class ExampleItem {
     private String name;
     private int age;
     private double[] quotations;
@@ -6,7 +6,7 @@ public class ExampleStuff {
     private ExampleThing thing;
     private ExampleThing[] things;
 
-    public ExampleStuff(String name, int age, double[] quotations, Double[] betterQuotations, ExampleThing thing, ExampleThing[] things) {
+    public ExampleItem(String name, int age, double[] quotations, Double[] betterQuotations, ExampleThing thing, ExampleThing[] things) {
         this.name = name;
         this.age = age;
         this.quotations = quotations;
