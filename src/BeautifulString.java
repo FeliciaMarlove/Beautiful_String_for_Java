@@ -7,23 +7,29 @@ public abstract class BeautifulString<T> {
     private static final String is = Suffixes.IS.get();
     private static int level = 0;
 
-    public static <T> void show(T objectToOutput) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        Method[] methods = objectToOutput.getClass().getDeclaredMethods();
+    public static <T> void show(T objectToOutput) {
+        try {
+            Method[] methods = objectToOutput.getClass().getDeclaredMethods();
 
-        for (Method m : methods) {
-            if (Modifier.isPublic(m.getModifiers())) {
-                if (m.getName().startsWith(get) && Character.isUpperCase(m.getName().charAt(get.length()))) {
-                    printBeautifully(m, objectToOutput, get);
-                } else if (m.getName().startsWith(is) && Character.isUpperCase(m.getName().charAt(is.length()))) {
-                    printBeautifully(m, objectToOutput, is);
-                } else if (m.getName().startsWith(has) && Character.isUpperCase(m.getName().charAt(has.length()))) {
-                    printBeautifully(m, objectToOutput, has);
+            for (Method m : methods) {
+                if (Modifier.isPublic(m.getModifiers())) {
+                    if (m.getName().startsWith(get) && Character.isUpperCase(m.getName().charAt(get.length()))) {
+                        printBeautifully(m, objectToOutput, get);
+                    } else if (m.getName().startsWith(is) && Character.isUpperCase(m.getName().charAt(is.length()))) {
+                        printBeautifully(m, objectToOutput, is);
+                    } else if (m.getName().startsWith(has) && Character.isUpperCase(m.getName().charAt(has.length()))) {
+                        printBeautifully(m, objectToOutput, has);
+                    }
                 }
             }
+            printTabs();
+            System.out.println("(the object is of type " + objectToOutput.getClass().getName() + ")");
+            --level;
+
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            System.out.println("Something bad happened!\n" + e.getMessage());
         }
-        printTabs();
-        System.out.println("(the object is of type " + objectToOutput.getClass().getName() + ")");
-        --level;
+
     }
 
     private static <T> void printBeautifully(Method m, T o, String prefix) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

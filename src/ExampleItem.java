@@ -1,3 +1,9 @@
+/*
+DUMMY CLASS FOR TEST ONLY
+Getters methods have to follow usual Java naming conventions:
+- starting with "get", "has" or "is" followed by an UpperCase word
+ */
+
 public class ExampleItem {
     private String name;
     private int age;

@@ -1,8 +1,8 @@
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 /*
+DUMMY CLASS FOR TEST ONLY
 Getters methods have to follow usual Java naming conventions:
 - starting with "get", "has" or "is" followed by an UpperCase word
  */

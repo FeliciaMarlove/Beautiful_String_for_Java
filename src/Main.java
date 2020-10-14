@@ -1,12 +1,11 @@
 /*
-Short demo of the use of BeautifulString abstract class on the ExampleClass
+Short demo of the use of BeautifulString
  */
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public static void main(String[] args) {
         ExampleThing[] exampleThings = ExampleThing.dummyPopulate();
         BeautifulString.show(exampleThings[0]);
     }
