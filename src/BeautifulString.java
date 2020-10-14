@@ -10,7 +10,6 @@ public abstract class BeautifulString<T> {
     public static <T> void show(T objectToOutput) {
         try {
             Method[] methods = objectToOutput.getClass().getDeclaredMethods();
-
             for (Method m : methods) {
                 if (Modifier.isPublic(m.getModifiers())) {
                     if (m.getName().startsWith(get) && Character.isUpperCase(m.getName().charAt(get.length()))) {
@@ -29,7 +28,6 @@ public abstract class BeautifulString<T> {
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             System.out.println("Something bad happened!\n" + e.getMessage());
         }
-
     }
 
     private static <T> void printBeautifully(Method m, T o, String prefix) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
@@ -41,7 +39,7 @@ public abstract class BeautifulString<T> {
         process(returnType, retrievedMethod, o);
     }
 
-    private static <T> void process(String returnType, Method method, T o) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+    private static <T> void process(String returnType, Method method, T o) throws InvocationTargetException, IllegalAccessException {
         String outputPrefix = ": \t{" + returnType + "} ";
 
         T data;
@@ -55,6 +53,7 @@ public abstract class BeautifulString<T> {
 
         if (data == null) {
             System.out.println(outputPrefix + data);
+        //TODO further cases to test: collections or maps of custom classes objects
         } else if (data instanceof Collection) {
             System.out.println(outputPrefix + data);
         } else if (data instanceof Map) {
@@ -150,6 +149,7 @@ public abstract class BeautifulString<T> {
             System.out.print("\t");
         }
     }
+
 
     /*
     For development and test purpose
