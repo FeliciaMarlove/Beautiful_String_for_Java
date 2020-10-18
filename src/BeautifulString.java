@@ -130,9 +130,7 @@ public abstract class BeautifulString<T> {
                     booleanArrayWrapped[i] = booleanArray[i];
                 }
                 return booleanArrayWrapped;
-                /*
-                an array of reference type objects, including wrappers
-                 */
+            case "Object[]" : case "Double[]": case "Integer[]": case "Character[]": case "Float[]": case "Long[]": case "Byte[]": case "Boolean[]": case "Short[]": return (Object[])o;
             default: return (Object[])o;
         }
     }

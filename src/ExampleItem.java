@@ -9,10 +9,10 @@ public class ExampleItem {
     private int age;
     private double[] quotations;
     private Double[] betterQuotations;
-    private ExampleThing thing;
-    private ExampleThing[] things;
+    private Person thing;
+    private Person[] things;
 
-    public ExampleItem(String name, int age, double[] quotations, Double[] betterQuotations, ExampleThing thing, ExampleThing[] things) {
+    public ExampleItem(String name, int age, double[] quotations, Double[] betterQuotations, Person thing, Person[] things) {
         this.name = name;
         this.age = age;
         this.quotations = quotations;
@@ -25,11 +25,11 @@ public class ExampleItem {
         return betterQuotations;
     }
 
-    public ExampleThing[] getThings() {
+    public Person[] getThings() {
         return things;
     }
 
-    public ExampleThing getThing() {
+    public Person getThing() {
         return thing;
     }
 
