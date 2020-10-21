@@ -6,6 +6,7 @@ public abstract class BeautifulString<T> {
     private static final String has = Suffixes.HAS.get();
     private static final String is = Suffixes.IS.get();
     private static int level = 0;
+    private static boolean extraProcess = false;
 
     public static <T> void show(T objectToOutput) {
         try {
@@ -39,13 +40,13 @@ public abstract class BeautifulString<T> {
         process(returnType, retrievedMethod, o);
     }
 
-    private static <T> void process(String returnType, Method method, T o) throws InvocationTargetException, IllegalAccessException {
+    private static <T,D,K,V> void process(String returnType, Method method, T o) throws InvocationTargetException, IllegalAccessException {
         String outputPrefix = ": \t{" + returnType + "} ";
 
         T data;
 
         if (returnType.endsWith("[]")) {
-            //TODO further cases to test: multidimensional arrays, heterogeneous arrays, Objects arrays
+            //TODO further cases to test: multidimensional arrays
             data = (T) getArrayWrapped(returnType, method.invoke(o));
         } else {
             data = (T) method.invoke(o);
@@ -53,25 +54,106 @@ public abstract class BeautifulString<T> {
 
         if (data == null) {
             System.out.println(outputPrefix + data);
-        //TODO further cases to test: collections or maps of custom classes objects
         } else if (data instanceof Collection) {
-            System.out.println(outputPrefix + data);
+            if(checkIfCustomCollection((Collection<T>) data)) {
+                System.out.println(outputPrefix);
+                processCutomClassCollection((Collection<T>) data);
+            } else {
+                System.out.println(outputPrefix + data);
+            }
         } else if (data instanceof Map) {
-            System.out.println(outputPrefix + data);
+            if(checkIfCustomMap((Map<K,V>) data)) {
+                System.out.println(outputPrefix);
+                processCutomClassMap((Map<K,V>) data);
+            } else {
+                System.out.println(outputPrefix + data);
+            }
         } else if (data.getClass().isArray()) {
-            System.out.println(outputPrefix + Arrays.deepToString((Object[]) data));
+            if (extraProcess) {
+                System.out.println(outputPrefix);
+                processCutomClassArray((D[])data);
+            } else {
+                System.out.println(outputPrefix + Arrays.deepToString((Object[]) data));
+            }
         } else if (data instanceof String || data instanceof Number || data instanceof Boolean) {
             System.out.println(outputPrefix + data);
         } else {
             ++level;
-            //TODO - consider limiting output in case of recursion! cfr java doc on deepToString
             System.out.println(outputPrefix);
             show(data);
-
         }
     }
 
-    private static <T> Object[] getArrayWrapped(String returnType, T o) {
+    private static boolean checkIfCustomMap(Map data) {
+        return ((Map)data).keySet().stream().anyMatch(key -> !key.getClass().getName().startsWith("java"))
+                || ((Map)data).values().stream().anyMatch(value -> !value.getClass().getName().startsWith("java"));
+    }
+
+    private static <K,V> void processCutomClassMap(Map<K,V> data) {
+        int index = 1;
+        for (Map.Entry<K,V> entry : data.entrySet()) {
+            ++level;
+            printTabs();
+            System.out.println("[" + index + "] {");
+            printTabs();
+            System.out.println("key: ");
+            if (entry.getKey().getClass().getName().startsWith("java")) {
+                ++level;
+                printTabs();
+                System.out.println(entry.getKey());
+                --level;
+            } else {
+                ++level;
+                show(entry.getKey());
+                --level;
+            }
+            printTabs();
+            System.out.println("value:");
+            if (entry.getValue().getClass().getName().startsWith("java")) {
+                ++level;
+                printTabs();
+                System.out.println(entry.getValue());
+                --level;
+            } else {
+                ++level;
+                show(entry.getValue());
+                --level;
+            }
+            ++level;
+            printTabs();
+            --level;
+            System.out.println("}");
+            index++;
+        }
+    }
+
+
+    private static boolean checkIfCustomCollection(Collection data) {
+        return ((Collection) data).stream().anyMatch(item -> !item.getClass().getName().startsWith("java"));
+    }
+
+    private static <T> void processCutomClassCollection(Collection<T> data) {
+        int index = 1;
+        for (T item: data) {
+            ++level;
+            System.out.print("[" + index + "]");
+            show(item);
+            index++;
+        }
+    }
+
+    private static <T> void processCutomClassArray(T[] o) {
+        extraProcess = false;
+        int index = 1;
+        for (T item: o) {
+            ++level;
+            System.out.print("[" + index + "]");
+            show(item);
+            index++;
+        }
+    }
+
+    private static <T> T[] getArrayWrapped(String returnType, T o) {
         if (o == null) return null;
         switch (returnType) {
             case "double[]" :
@@ -80,58 +162,58 @@ public abstract class BeautifulString<T> {
                 for (int i = 0; i < doubleArray.length; i++) {
                     doubleArrayWrapped[i] = doubleArray[i];
                 }
-                return doubleArrayWrapped;
+                return (T[]) doubleArrayWrapped;
             case "int[]" :
                 int[] intArray = (int[]) o;
                 Integer[] integerArrayWrapped = new Integer[intArray.length];
                 for (int i = 0; i < intArray.length; i++) {
                     integerArrayWrapped[i] = intArray[i];
                 }
-                return integerArrayWrapped;
+                return (T[]) integerArrayWrapped;
             case "float[]" :
                 float[] floatArray = (float[]) o;
                 Float[] floatArrayWrapped = new Float[floatArray.length];
                 for (int i = 0; i < floatArray.length; i++) {
                     floatArrayWrapped[i] = floatArray[i];
                 }
-                return floatArrayWrapped;
+                return (T[]) floatArrayWrapped;
             case "long[]" :
                 long[] longArray = (long[]) o;
                 Long[] longArrayWrapped = new Long[longArray.length];
                 for (int i = 0; i < longArray.length; i++) {
                     longArrayWrapped[i] = longArray[i];
                 }
-                return longArrayWrapped;
+                return (T[]) longArrayWrapped;
             case "char[]" :
                 char[] charArray = (char[]) o;
                 Character[] characterArrayWrapped = new Character[charArray.length];
                 for (int i = 0; i < charArray.length; i++) {
                     characterArrayWrapped[i] = charArray[i];
                 }
-                return characterArrayWrapped;
+                return (T[]) characterArrayWrapped;
             case "byte[]" :
                 byte[] byteArray = (byte[]) o;
                 Byte[] byteArrayWrapped = new Byte[byteArray.length];
                 for (int i = 0; i < byteArray.length; i++) {
                     byteArrayWrapped[i] = byteArray[i];
                 }
-                return byteArrayWrapped;
+                return (T[]) byteArrayWrapped;
             case "short[]" :
                 short[] shortArray = (short[]) o;
                 Short[] shortArrayWrapped = new Short[shortArray.length];
                 for (int i = 0; i < shortArray.length; i++) {
                     shortArrayWrapped[i] = shortArray[i];
                 }
-                return shortArrayWrapped;
+                return (T[]) shortArrayWrapped;
             case "boolean[]" :
                 boolean[] booleanArray = (boolean[]) o;
                 Boolean[] booleanArrayWrapped = new Boolean[booleanArray.length];
                 for (int i = 0; i < booleanArray.length; i++) {
                     booleanArrayWrapped[i] = booleanArray[i];
                 }
-                return booleanArrayWrapped;
-            case "Object[]" : case "Double[]": case "Integer[]": case "Character[]": case "Float[]": case "Long[]": case "Byte[]": case "Boolean[]": case "Short[]": return (Object[])o;
-            default: return (Object[])o;
+                return (T[]) booleanArrayWrapped;
+            case "Object[]" : case "Double[]": case "Integer[]": case "Character[]": case "Float[]": case "Long[]": case "Byte[]": case "Boolean[]": case "Short[]": return (T[])o;
+            default: extraProcess = true; return (T[])o;
         }
     }
 
