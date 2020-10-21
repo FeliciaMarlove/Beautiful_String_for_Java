@@ -85,8 +85,8 @@ public abstract class BeautifulString<T> {
     }
 
     private static boolean checkIfCustomMap(Map data) {
-        return ((Map)data).keySet().stream().anyMatch(key -> !key.getClass().getName().startsWith("java"))
-                || ((Map)data).values().stream().anyMatch(value -> !value.getClass().getName().startsWith("java"));
+        return ((Map)data).keySet().stream().anyMatch(key -> !isJavaClass(key.getClass()))
+                || ((Map)data).values().stream().anyMatch(value -> !isJavaClass(value.getClass()));
     }
 
     private static <K,V> void processCutomClassMap(Map<K,V> data) {
@@ -97,7 +97,7 @@ public abstract class BeautifulString<T> {
             System.out.println("[" + index + "] {");
             printTabs();
             System.out.println("key: ");
-            if (entry.getKey().getClass().getName().startsWith("java")) {
+            if (isJavaClass(entry.getKey().getClass())) {
                 ++level;
                 printTabs();
                 System.out.println(entry.getKey());
@@ -109,7 +109,7 @@ public abstract class BeautifulString<T> {
             }
             printTabs();
             System.out.println("value:");
-            if (entry.getValue().getClass().getName().startsWith("java")) {
+            if (isJavaClass(entry.getValue().getClass())) {
                 ++level;
                 printTabs();
                 System.out.println(entry.getValue());
@@ -129,7 +129,7 @@ public abstract class BeautifulString<T> {
 
 
     private static boolean checkIfCustomCollection(Collection data) {
-        return ((Collection) data).stream().anyMatch(item -> !item.getClass().getName().startsWith("java"));
+        return ((Collection) data).stream().anyMatch(item -> !isJavaClass(item.getClass()));
     }
 
     private static <T> void processCutomClassCollection(Collection<T> data) {
@@ -230,6 +230,9 @@ public abstract class BeautifulString<T> {
         }
     }
 
+    private static boolean isJavaClass(Class clazz) {
+        return clazz.getName().startsWith("java");
+    }
 
     /*
     For development and test purpose
