@@ -1,11 +1,9 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /*
-DUMMY CLASSES FOR TEST ONLY
+EXAMPLE CLASS FOR TEST ONLY
 Getters methods have to follow usual Java naming conventions:
 - starting with "get", "has" or "is" followed by an UpperCase word
  */
@@ -51,7 +49,6 @@ public class Person<T, K, V> {
     }
 
     // Setters omitted for code brevity
-
 
     public int getAge() {
         return age;
@@ -114,9 +111,10 @@ public class Person<T, K, V> {
         Map<String, Education> education = Map.of("Higher long", new Education("Master degree", "AI"), "Higher short", new Education("Bachelor degree", "Computer science"));
         double[] weightMeasurements = {55.08, 58.92, 60.23, 56.05};
         Double[] weightMeasurementsW = Arrays.stream(weightMeasurements).boxed().toArray(Double[]::new);
-        Person companion = new Person(24, true, false, "Dukette", weightMeasurementsW);
         Person father = new Person(55, false, true, "Duke sr", weightMeasurementsW);
         Person mother = new Person(56, true, true, "Duk'ster", weightMeasurementsW);
+        Person companion = new Person(24, true, false, "Dukette", weightMeasurementsW);
+        Person companionB = new Person(28, true, true, "Dukey", hobbies, education, weightMeasurements, weightMeasurementsW, companion, new Person[]{mother, father}); //don't question the family issues here...
         return new Person(25, true, false, "Duke", hobbies, education, weightMeasurements, weightMeasurementsW, companion, new Person[]{mother, father});
     }
 }

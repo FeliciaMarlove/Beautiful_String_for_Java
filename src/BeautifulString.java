@@ -8,7 +8,17 @@ public abstract class BeautifulString<T> {
     private static int level = 0;
     private static boolean extraProcess = false;
 
-    public static <T> void show(T objectToOutput) {
+    public static <T> void print(T objectToOutput) {
+        try {
+            show(objectToOutput);
+        } catch (Exception e) {
+            System.out.println("Something went wrong, please send me feedback!");
+        } finally {
+            printFooter();
+        }
+    }
+
+    private static <T> void show(T objectToOutput) {
         try {
             Method[] methods = objectToOutput.getClass().getDeclaredMethods();
             for (Method m : methods) {
@@ -46,7 +56,6 @@ public abstract class BeautifulString<T> {
         T data;
 
         if (returnType.endsWith("[]")) {
-            //TODO further cases to test: multidimensional arrays
             data = (T) getArrayWrapped(returnType, method.invoke(o));
         } else {
             data = (T) method.invoke(o);

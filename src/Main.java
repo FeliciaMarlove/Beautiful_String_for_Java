@@ -1,9 +1,9 @@
 /*
-Short demo of the use of BeautifulString
+BeautifulString demo
  */
 
 public class Main {
     public static void main(String[] args) {
-        BeautifulString.show(Person.dummyPopulate());
+        BeautifulString.print(Person.dummyPopulate());
     }
 }
